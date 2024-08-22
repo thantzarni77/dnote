@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 
 const Note = () => {
   return (
-    <div className="w-2/5 border-y-4 border-y-slate-500 p-4 shadow-xl">
+    <div className="rounded-md border-2 border-slate-500 p-4 shadow-xl md:w-2/5">
       <h3 className="text-xl font-semibold">
         Lorem Ispum Dolor sti amet consectetur
       </h3>
+      <hr className="my-1 h-1 bg-slate-500" />
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis suscipit
         asperiores, architecto reprehenderit nobis, nostrum minima non, et ullam

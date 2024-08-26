@@ -7,8 +7,8 @@ import * as Yup from "yup";
 
 const NoteForm = ({ isCreate }) => {
   const initialValues = {
-    title: "123",
-    content: "4324",
+    title: "",
+    content: "",
   };
 
   // const validate = (values) => {

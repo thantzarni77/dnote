@@ -4,8 +4,17 @@ import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 
-const Note = ({ note }) => {
+const Note = ({ note, getNotes, customAlert }) => {
   const { _id, title, content, createdAt } = note;
+  const deleteNote = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API}/delete/${_id}`, {
+      method: "delete",
+    });
+    if (response.status === 204) {
+      customAlert("Post Deleted");
+      getNotes();
+    }
+  };
   return (
     <div className="rounded-md border-2 border-slate-500 p-4 shadow-xl md:w-2/5">
       <h3 className="text-xl font-semibold">{title}</h3>
@@ -16,7 +25,8 @@ const Note = ({ note }) => {
         <div className="flex items-center justify-end gap-2">
           <RiDeleteBin6Line
             size={20}
-            className="text-red-700 hover:text-red-400"
+            className="cursor-pointer text-red-700 hover:text-red-400"
+            onClick={deleteNote}
           />
           <Link to={`/edit/${_id}`}>
             <FiEdit

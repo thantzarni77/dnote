@@ -1,28 +1,20 @@
 import { MdOutlineSaveAs } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, Navigate, redirect } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import CustomErrorMsg from "./CustomErrorMsg";
 import * as Yup from "yup";
+import { useState } from "react";
+
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const NoteForm = ({ isCreate }) => {
+  const [isRedirect, setIsRedirect] = useState(false);
   const initialValues = {
     title: "",
     content: "",
   };
-
-  // const validate = (values) => {
-  //   const errors = {};
-  //   if (values.title.trim().length < 10) {
-  //     errors.title = "Tile must have at least 10 words";
-  //   }
-
-  //   if (values.context.trim().length < 10) {
-  //     errors.context = "Tile must have at least 10 words";
-  //   }
-
-  //   return errors;
-  // };
 
   const noteFormSchema = Yup.object({
     title: Yup.string()
@@ -34,12 +26,50 @@ const NoteForm = ({ isCreate }) => {
       .required("Content is required"),
   });
 
-  const submitHandler = (values) => {
-    console.log(values);
+  const submitHandler = async (values) => {
+    if (isCreate) {
+      const response = await fetch(`${import.meta.env.VITE_API}/create`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (response.status === 201) {
+        setIsRedirect(true);
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
   };
+
+  if (isRedirect) {
+    return <Navigate to={"/"} />;
+  }
 
   return (
     <div className="mx-auto flex w-[90%] flex-col items-center">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
       <div className="flex w-[90%] items-center justify-between">
         <h1 className="my-5 text-2xl font-bold text-slate-900">
           {isCreate ? "Create New Note Here." : "Edit your note."}

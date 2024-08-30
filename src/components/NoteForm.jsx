@@ -15,6 +15,7 @@ const NoteForm = ({ isCreate }) => {
   const [isRedirect, setIsRedirect] = useState(false);
   const [oldNote, setOldNote] = useState({});
   const [previewImage, setPreviewImage] = useState(null);
+  const [isUpload, setIsUpload] = useState(false);
 
   const fileRef = useRef();
 
@@ -72,6 +73,9 @@ const NoteForm = ({ isCreate }) => {
   const clearPreviewImage = (setFieldValue) => {
     setPreviewImage(null);
     setFieldValue("cover_img", null);
+    if (isCreate) {
+      fileRef.current.value = "";
+    }
   };
 
   const submitHandler = async (values) => {
@@ -164,7 +168,7 @@ const NoteForm = ({ isCreate }) => {
                   Cover Image{" "}
                   <span className="text-sm text-gray-600">optional</span>
                 </label>
-                {previewImage && (
+                {isUpload && previewImage && (
                   <div
                     className="cursor-pointer font-bold text-red-400"
                     onClick={() => clearPreviewImage(setFieldValue)}
@@ -172,31 +176,63 @@ const NoteForm = ({ isCreate }) => {
                     Clear Preview Image
                   </div>
                 )}
-              </div>
-              <input
-                type="file"
-                name="cover_img"
-                hidden
-                ref={fileRef}
-                onChange={(e) => handleImageChange(e, setFieldValue)}
-              />
-              <div
-                className="relative flex h-36 items-center justify-center border-2 border-slate-400 md:h-52"
-                onClick={() => fileRef.current.click()}
-              >
-                <LuHardDriveUpload
-                  size={32}
-                  style={{ color: "#4b5563" }}
-                  className="z-10 cursor-pointer"
-                />
-                {previewImage && (
-                  <img
-                    src={previewImage}
-                    alt={"preview_img"}
-                    className="absolute z-0 h-full w-full object-cover opacity-40"
-                  />
+                {isUpload && !previewImage && (
+                  <div
+                    className="cursor-pointer font-bold text-red-400"
+                    onClick={() => setIsUpload(false)}
+                  >
+                    Hide Upload Photo
+                  </div>
                 )}
               </div>
+              {isUpload && (
+                <>
+                  <input
+                    type="file"
+                    name="cover_img"
+                    hidden
+                    ref={fileRef}
+                    onChange={(e) => handleImageChange(e, setFieldValue)}
+                  />
+                  <div
+                    className="relative flex h-36 items-center justify-center border-2 border-slate-400 md:h-52"
+                    onClick={() => fileRef.current.click()}
+                  >
+                    <LuHardDriveUpload
+                      size={32}
+                      style={{ color: "#4b5563" }}
+                      className="z-10 cursor-pointer"
+                    />
+                    {isCreate ? (
+                      previewImage && (
+                        <img
+                          src={previewImage}
+                          alt={"preview_img"}
+                          className="absolute z-0 h-full w-full object-cover opacity-40"
+                        />
+                      )
+                    ) : (
+                      <img
+                        src={
+                          previewImage
+                            ? previewImage
+                            : `${import.meta.env.VITE_API}/${oldNote.cover_img}`
+                        }
+                        alt={"preview_img"}
+                        className="absolute z-0 h-full w-full object-cover opacity-40"
+                      />
+                    )}
+                  </div>
+                </>
+              )}
+              {!isUpload && (
+                <div
+                  className="text-slate-700"
+                  onClick={() => setIsUpload((prev) => !prev)}
+                >
+                  Show Upload Photo
+                </div>
+              )}
             </div>
             <CustomErrorMsg name="cover_img" />
             <div className="mx-auto mb-3 flex w-[90%] flex-col gap-2">

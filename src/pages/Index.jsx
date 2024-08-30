@@ -34,22 +34,7 @@ const Index = () => {
     });
   };
   return (
-    <div className="mx-auto my-10 flex w-[90%] flex-wrap justify-center gap-4">
-      {loading && notes.length <= 0 ? (
-        <p className="text-xl text-slate-600">Loading ....</p>
-      ) : (
-        notes.map((note) => {
-          return (
-            <Note
-              key={note._id}
-              note={note}
-              getNotes={getNotes}
-              customAlert={customAlert}
-            />
-          );
-        })
-      )}
-      <Plus />
+    <div>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -62,6 +47,23 @@ const Index = () => {
         pauseOnHover={false}
         theme="light"
       />
+      <div className="mx-auto my-10 flex w-[90%] flex-wrap items-center justify-center gap-5">
+        {loading && notes.length <= 0 ? (
+          <p className="text-xl text-slate-600">Loading ....</p>
+        ) : (
+          notes.map((note) => {
+            return (
+              <Note
+                key={note._id}
+                note={note}
+                getNotes={getNotes}
+                customAlert={customAlert}
+              />
+            );
+          })
+        )}
+        <Plus />
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 
 const Note = ({ note, getNotes, customAlert }) => {
-  const { _id, title, content, createdAt } = note;
+  const { _id, title, content, createdAt, cover_img } = note;
   const deleteNote = async () => {
     const response = await fetch(`${import.meta.env.VITE_API}/delete/${_id}`, {
       method: "delete",
@@ -16,10 +16,12 @@ const Note = ({ note, getNotes, customAlert }) => {
     }
   };
   return (
-    <div className="rounded-md border-2 border-slate-500 p-4 shadow-xl md:w-2/5">
-      <h3 className="text-xl font-semibold">{title}</h3>
-      <hr className="my-1 h-1 bg-slate-500" />
-      <p>{content.slice(0, 120)}</p>
+    <div className="flex h-60 w-80 flex-col justify-between rounded-md border-2 border-slate-500 p-4 shadow-xl md:w-96">
+      <div>
+        <h3 className="text-xl font-semibold">{title}</h3>
+        <hr className="my-1 h-1 bg-slate-500" />
+        <p>{content.slice(0, 120)}</p>
+      </div>
       <div className="mt-2 flex justify-between">
         <p>{formatISO9075(new Date(createdAt), { representation: "date" })}</p>
         <div className="flex items-center justify-end gap-2">

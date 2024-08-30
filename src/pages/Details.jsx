@@ -31,7 +31,7 @@ const Details = () => {
               Back
             </button>
           </Link>
-          <div className="w-full border-y-4 border-y-slate-500 p-4 shadow-xl">
+          <div className="w-full border-y-4 border-y-slate-500 px-5 py-4 shadow-xl">
             <h3 className="text-xl font-semibold">{note.title}</h3>
             <div className="my-1 flex items-center gap-1">
               <FaUser className="text-[18px]" /> <p>{note.author}</p>
@@ -45,6 +45,13 @@ const Details = () => {
                   })}
                 </p>
               </div>
+            )}
+            {note.cover_img && (
+              <img
+                src={`${import.meta.env.VITE_API}/${note.cover_img}`}
+                alt={note.title}
+                className="mx-auto my-5 h-80 w-full rounded object-cover"
+              />
             )}
             <p className="mt-5 text-base">{note.content}</p>
           </div>

@@ -16,7 +16,7 @@ const Note = ({ note, getNotes, customAlert }) => {
     }
   };
   return (
-    <div className="flex h-60 w-80 flex-col justify-between rounded-md border-2 border-slate-500 p-4 shadow-xl md:w-96">
+    <div className="flex h-52 w-80 flex-col justify-between rounded-md border-2 border-slate-500 p-4 shadow-xl md:w-96">
       <div>
         <h3 className="text-xl font-semibold">{title}</h3>
         <hr className="my-1 h-1 bg-slate-500" />

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 import { FaUser } from "react-icons/fa";
 import { MdDateRange } from "react-icons/md";
+import { NoteContext } from "../../src/context/NoteContext";
 
 const Details = () => {
   const { id } = useParams();
   const [note, setNote] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { loader } = useContext(NoteContext);
 
   const getNote = async () => {
     setLoading(true);
@@ -21,9 +23,9 @@ const Details = () => {
     getNote();
   }, []);
   return (
-    <>
+    <div className="flex justify-center">
       {loading ? (
-        <p>Loading ....</p>
+        <p className="mt-10">{loader}</p>
       ) : (
         <div className="mx-auto my-4 flex w-[90%] flex-col items-center">
           <Link to={"/"} className="self-start">
@@ -57,7 +59,7 @@ const Details = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

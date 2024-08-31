@@ -1,10 +1,14 @@
 import { MdOutlineSaveAs } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { LuHardDriveUpload } from "react-icons/lu";
+
 import { Link, Navigate, redirect } from "react-router-dom";
+
 import { Formik, Form, Field } from "formik";
-import CustomErrorMsg from "./CustomErrorMsg";
 import * as Yup from "yup";
+
+import CustomErrorMsg from "./CustomErrorMsg";
+
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -227,7 +231,7 @@ const NoteForm = ({ isCreate }) => {
               )}
               {!isUpload && (
                 <div
-                  className="text-slate-700"
+                  className="cursor-pointer font-bold text-slate-700"
                   onClick={() => setIsUpload((prev) => !prev)}
                 >
                   Show Upload Photo

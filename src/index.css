@@ -8,3 +8,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+@layer utilities {
+  .active {
+    @apply font-bold text-slate-400;
+  }
+}

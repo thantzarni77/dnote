@@ -4,6 +4,7 @@ import Plus from "../components/Plus";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+
 import { NoteContext } from "../../src/context/NoteContext";
 
 const Index = () => {

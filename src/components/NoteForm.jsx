@@ -2,20 +2,22 @@ import { MdOutlineSaveAs } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { LuHardDriveUpload } from "react-icons/lu";
 
-import { Link, Navigate, redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import CustomErrorMsg from "./CustomErrorMsg";
+import { UserContext } from "../context/UserContext";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 const NoteForm = ({ isCreate }) => {
+  const { token } = useContext(UserContext);
   const [isRedirect, setIsRedirect] = useState(false);
   const [oldNote, setOldNote] = useState({});
   const [previewImage, setPreviewImage] = useState(null);
@@ -99,6 +101,9 @@ const NoteForm = ({ isCreate }) => {
     const response = await fetch(API, {
       method: "post",
       body: formData,
+      headers: {
+        Authorizaton: `Bearer ${token.token}`,
+      },
     });
     if (response.status === 201 || response.status === 200) {
       setIsRedirect(true);

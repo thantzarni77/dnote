@@ -5,9 +5,11 @@ import Plus from "../components/Plus";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
-import { NoteContext } from "../../src/context/NoteContext";
+import { NoteContext } from "../context/NoteContext";
+import { UserContext } from "../context/UserContext";
 
 const Index = () => {
+  const { token } = useContext(UserContext);
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,18 +44,33 @@ const Index = () => {
     }
   };
 
-  const customAlert = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+  const customAlert = (status, message) => {
+    if (status === 204) {
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    if (status === 401) {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <ToastContainer
@@ -69,6 +86,17 @@ const Index = () => {
         theme="light"
       />
       {loading && <p className="text-xl text-slate-600">{loader}</p>}
+      {!loading && notes.length === 0 && (
+        <p className="mt-[15%] text-4xl font-bold">No notes avaliable</p>
+      )}
+      {token && token.userEmail && (
+        <p className="mt-4">
+          Current User Email :{" "}
+          <span className="font-semibold text-slate-600">
+            {token.userEmail}
+          </span>
+        </p>
+      )}
       <>
         <div className="mx-auto my-10 flex w-[90%] flex-wrap items-center justify-center gap-5">
           {notes.length > 0 && (

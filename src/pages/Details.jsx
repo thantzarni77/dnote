@@ -36,7 +36,7 @@ const Details = () => {
           <div className="w-full border-y-4 border-y-slate-500 px-5 py-4 shadow-xl">
             <h3 className="text-xl font-semibold">{note.title}</h3>
             <div className="my-1 flex items-center gap-1">
-              <FaUser className="text-[18px]" /> <p>{note.author}</p>
+              <FaUser className="text-[18px]" /> <p>{note.author?.username}</p>
             </div>
             {note.createdAt && (
               <div className="flex items-center gap-1">

@@ -13,7 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
 
 const AuthForm = ({ isLogin }) => {
-  const { setToken } = useContext(UserContext);
+  const { updateToken } = useContext(UserContext);
   const [isRedirect, setIsRedirect] = useState();
 
   const initialValues = {
@@ -70,7 +70,7 @@ const AuthForm = ({ isLogin }) => {
     if (response.status === 201) {
       setIsRedirect(true);
     } else if (response.status === 200) {
-      setToken(responseData);
+      updateToken(responseData);
       setIsRedirect(true);
     } else if (response.status == 400) {
       const message = responseData.errorMessage[0].msg;

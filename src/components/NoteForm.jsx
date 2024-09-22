@@ -27,7 +27,11 @@ const NoteForm = ({ isCreate }) => {
 
   const { id } = useParams();
   const getOldNote = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API}/edit/${id}`);
+    const response = await fetch(`${import.meta.env.VITE_API}/edit/${id}`, {
+      headers: {
+        Authorizaton: `Bearer ${token.token}`,
+      },
+    });
     if (response.status === 200) {
       const oldNote = await response.json();
       setOldNote(oldNote);
@@ -64,7 +68,7 @@ const NoteForm = ({ isCreate }) => {
       .test(
         "FILE_FORMAT",
         "This file format is not supported",
-        (value) => !value || SUPPORTED_FORMATS.includes(value.type),
+        (value) => !value || SUPPORTED_FORMATS.includes(value?.type),
       ),
   });
 
@@ -95,7 +99,10 @@ const NoteForm = ({ isCreate }) => {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("content", values.content);
-    formData.append("cover_img", values.cover_img);
+    // Append cover_img only if a new file is selected
+    if (values.cover_img) {
+      formData.append("cover_img", values.cover_img);
+    }
     formData.append("noteID", values.noteID);
 
     const response = await fetch(API, {

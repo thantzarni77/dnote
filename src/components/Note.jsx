@@ -9,6 +9,27 @@ import { UserContext } from "../context/UserContext";
 const Note = ({ note, getNotes, customAlert }) => {
   const { token } = useContext(UserContext);
   const { _id, title, content, createdAt, cover_img } = note;
+
+  const handleDeleteNote = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    if (!token) {
+      localStorage.setItem("token", null);
+      window.location.reload(false);
+    }
+    const response = await fetch(`${import.meta.env.VITE_API}/status`, {
+      headers: {
+        Authorizaton: `Bearer ${token.token}`,
+      },
+    });
+    if (response.status === 401) {
+      customAlert(response.status, "User not Authorized");
+      localStorage.setItem("token", null);
+    } else {
+      deleteNote();
+    }
+  };
+
   const deleteNote = async () => {
     const response = await fetch(`${import.meta.env.VITE_API}/delete/${_id}`, {
       method: "delete",
@@ -42,7 +63,7 @@ const Note = ({ note, getNotes, customAlert }) => {
                   <RiDeleteBin6Line
                     size={20}
                     className="cursor-pointer text-red-700 hover:text-red-400"
-                    onClick={deleteNote}
+                    onClick={handleDeleteNote}
                   />
                   <Link to={`/edit/${_id}`}>
                     <FiEdit

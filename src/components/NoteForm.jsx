@@ -99,10 +99,7 @@ const NoteForm = ({ isCreate }) => {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("content", values.content);
-    // Append cover_img only if a new file is selected
-    if (values.cover_img) {
-      formData.append("cover_img", values.cover_img);
-    }
+    formData.append("cover_img", values.cover_img);
     formData.append("noteID", values.noteID);
 
     const response = await fetch(API, {
@@ -159,7 +156,7 @@ const NoteForm = ({ isCreate }) => {
         onSubmit={submitHandler}
         enableReinitialize={true}
       >
-        {({ errors, touched, values, setFieldValue }) => (
+        {({ errors, touched, values, setFieldValue, isSubmitting }) => (
           <Form
             encType="multipart/form-data"
             className="flex w-full flex-col items-center"
@@ -267,10 +264,16 @@ const NoteForm = ({ isCreate }) => {
             <button
               className="my-2 w-[90%] rounded-md bg-slate-300 p-2 font-bold text-slate-900 hover:bg-slate-600 hover:text-slate-100"
               type="submit"
+              disabled={isSubmitting}
             >
               <div className="flex items-center justify-center gap-1">
                 <MdOutlineSaveAs size={24} />
-                <span>{isCreate ? "Save" : "Update"} Note</span>
+                <span>
+                  {isCreate
+                    ? `${isSubmitting ? "Posting " : "Post"}`
+                    : `${isSubmitting ? "Updating " : "Update"}`}{" "}
+                  Note
+                </span>
               </div>
             </button>
           </Form>

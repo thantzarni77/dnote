@@ -111,7 +111,7 @@ const AuthForm = ({ isLogin }) => {
         onSubmit={submitHandler}
         validationSchema={authFormSchema}
       >
-        {() => (
+        {({ isSubmitting }) => (
           <Form className="flex w-full flex-col items-center">
             {!isLogin && (
               <>
@@ -160,9 +160,12 @@ const AuthForm = ({ isLogin }) => {
             <button
               className="my-2 w-[90%] rounded-md bg-slate-300 p-2 font-bold text-slate-900 hover:bg-slate-600 hover:text-slate-100"
               type="submit"
+              disabled={isSubmitting}
             >
               <div className="flex items-center justify-center gap-1">
-                {isLogin ? "Login" : "Register"}
+                {isLogin
+                  ? `${isSubmitting ? "Submitting..." : "Login"}`
+                  : `${isSubmitting ? "Creating...." : "Register"}`}
               </div>
             </button>
           </Form>
